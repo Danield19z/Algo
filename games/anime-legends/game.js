@@ -1,5 +1,5 @@
-
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 // ======================================
 // ANIME LEGENDS - EL DESPERTAR
@@ -11,7 +11,6 @@ const startButton = document.getElementById("start-button");
 const hud = document.getElementById("game-hud");
 const controls = document.getElementById("controls");
 const loading = document.getElementById("loading");
-
 // ======================================
 // ESCENA Y CÁMARA
 // ======================================
@@ -245,7 +244,7 @@ for (let i = 0; i < 150; i++) {
 }
 
 // ======================================
-// PERSONAJE ANIME
+// PERSONAJE PROVISIONAL
 // ======================================
 
 const hero = new THREE.Group();
@@ -292,7 +291,9 @@ createMesh(
 
 // Pelo
 createMesh(
-    new THREE.SphereGeometry(0.59, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.58),
+    new THREE.SphereGeometry(
+        0.59, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.58
+    ),
     hair,
     head,
     0, 0.16, -0.04
@@ -353,6 +354,7 @@ const scarfTail = createMesh(
     body,
     -0.4, 2, 0.1
 );
+
 scarfTail.rotation.z = -0.4;
 
 // Brazos animables
@@ -418,6 +420,116 @@ const aura = createMesh(
 );
 
 aura.rotation.x = -Math.PI / 2;
+
+// ======================================
+// CARGAR PERSONAJE 3D DESDE HERO.GLB
+// ======================================
+
+let heroModel = null;
+let animationMixer = null;
+let currentModelAction = null;
+let idleClip = null;
+let moveClip = null;
+
+const gltfLoader = new GLTFLoader();
+
+function playModelClip(clip) {
+    if (
+        !animationMixer ||
+        !clip ||
+        currentModelAction?.getClip() === clip
+    ) {
+        return;
+    }
+
+    const nextAction = animationMixer.clipAction(clip);
+    nextAction.reset();
+    nextAction.fadeIn(0.2);
+
+    if (currentModelAction) {
+        currentModelAction.fadeOut(0.2);
+    }
+
+    nextAction.play();
+    currentModelAction = nextAction;
+}
+
+gltfLoader.load(
+    new URL("./assets/characters/hero.glb", import.meta.url).href,
+
+    (gltf) => {
+        heroModel = gltf.scene;
+
+        // Ajustar automáticamente el tamaño del modelo
+        const originalBounds = new THREE.Box3().setFromObject(heroModel);
+        const originalSize = new THREE.Vector3();
+        const originalCenter = new THREE.Vector3();
+
+        originalBounds.getSize(originalSize);
+        originalBounds.getCenter(originalCenter);
+
+        if (originalSize.y > 0) {
+            const targetHeight = 3.2;
+            const modelScale = targetHeight / originalSize.y;
+
+            heroModel.scale.setScalar(modelScale);
+
+            heroModel.position.set(
+                -originalCenter.x * modelScale,
+                -originalBounds.min.y * modelScale,
+                -originalCenter.z * modelScale
+            );
+        }
+
+        heroModel.traverse((object) => {
+            if (object.isMesh) {
+                object.castShadow = true;
+                object.receiveShadow = true;
+            }
+        });
+
+        hero.add(heroModel);
+
+        // Ocultar el personaje provisional
+        body.visible = false;
+        aura.visible = false;
+
+        // Detectar animaciones incluidas en el GLB
+        if (gltf.animations && gltf.animations.length > 0) {
+            animationMixer = new THREE.AnimationMixer(heroModel);
+
+            idleClip = gltf.animations.find((clip) =>
+                /idle|stand|wait|breath/i.test(clip.name)
+            ) || gltf.animations[0];
+
+            moveClip = gltf.animations.find((clip) =>
+                /walk|run|move|jog/i.test(clip.name)
+            ) || null;
+
+            playModelClip(idleClip);
+
+            console.log(
+                "Anime Legends: animaciones encontradas:",
+                gltf.animations.map((clip) => clip.name)
+            );
+        } else {
+            console.log(
+                "Anime Legends: hero.glb no incluye animaciones. El modelo se ha cargado igualmente."
+            );
+        }
+
+        console.log("Anime Legends: personaje 3D cargado correctamente.");
+    },
+
+    undefined,
+
+    (error) => {
+        console.error(
+            "No se pudo cargar hero.glb. Se mantendrá el personaje provisional.",
+            error
+        );
+    }
+);
 
 // Posición inicial
 hero.position.set(0, 0, 4);
@@ -488,7 +600,10 @@ document.getElementById("jump-button").addEventListener(
     }
 );
 
-// Girar cámara con el ratón
+// ======================================
+// GIRAR CÁMARA CON EL RATÓN
+// ======================================
+
 let dragging = false;
 let lastMouseX = 0;
 
@@ -516,6 +631,7 @@ window.addEventListener("pointermove", (event) => {
 // ======================================
 
 startButton.addEventListener("click", () => {
+    console.log("¡SE HA DETECTADO EL CLIC!");
     started = true;
     startScreen.classList.add("hidden");
     hud.classList.remove("hidden");
@@ -546,6 +662,17 @@ function update(delta) {
 
     const moving = moveX !== 0 || moveZ !== 0;
 
+    // Animaciones del modelo GLB
+    if (animationMixer) {
+        if (moving && started && moveClip) {
+            playModelClip(moveClip);
+        } else if (idleClip) {
+            playModelClip(idleClip);
+        }
+
+        animationMixer.update(delta);
+    }
+
     if (moving && started) {
         const length = Math.hypot(moveX, moveZ);
         moveX /= length;
@@ -573,6 +700,7 @@ function update(delta) {
         );
 
         const direction = Math.atan2(rotatedX, rotatedZ);
+
         hero.rotation.y = THREE.MathUtils.lerp(
             hero.rotation.y,
             direction,
@@ -581,6 +709,7 @@ function update(delta) {
 
         walkTime += delta * 11;
 
+        // Movimiento del personaje provisional
         legs[0].rotation.x = Math.sin(walkTime) * 0.65;
         legs[1].rotation.x = -Math.sin(walkTime) * 0.65;
 
@@ -612,7 +741,7 @@ function update(delta) {
         }
     }
 
-    // Movimiento suave del cuerpo
+    // Movimiento suave del cuerpo provisional
     body.position.y = moving
         ? Math.abs(Math.sin(walkTime)) * 0.08
         : Math.sin(clock.elapsedTime * 2) * 0.025;
@@ -621,6 +750,7 @@ function update(delta) {
 
     // Cámara detrás del héroe
     const distance = 9;
+
     const desiredCamera = new THREE.Vector3(
         hero.position.x + Math.sin(cameraAngle) * distance,
         hero.position.y + 5,

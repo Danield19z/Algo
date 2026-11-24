@@ -6,9 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Legends | GameZone</title>
     <link rel="stylesheet" href="style.css">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
 <body>
-
     <div id="game-container"></div>
 
     <header class="top-bar">
@@ -21,7 +29,7 @@
             <div class="tag">UNA NUEVA AVENTURA COMIENZA</div>
             <h1>ANIME <span>LEGENDS</span></h1>
             <p>Descubre un mundo lleno de magia, criaturas y misterios.</p>
-            <button id="start-button">COMENZAR AVENTURA</button>
+            <button id="start-button" onclick="alert('EL BOTÓN FUNCIONA')">COMENZAR AVENTURA</button>
             <small>WASD para moverte · Ratón para mirar · Espacio para saltar</small>
         </div>
     </main>
