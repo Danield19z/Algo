@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Legends | GameZone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container"></div>
+
+    <header class="top-bar">
+        <a href="../../index.html" class="back-button">← GAMEZONE</a>
+        <div class="logo">ANIME <span>LEGENDS</span></div>
+    </header>
+
+    <main id="start-screen" class="screen">
+        <div class="intro">
+            <div class="tag">UNA NUEVA AVENTURA COMIENZA</div>
+            <h1>ANIME <span>LEGENDS</span></h1>
+            <p>Descubre un mundo lleno de magia, criaturas y misterios.</p>
+            <button id="start-button">COMENZAR AVENTURA</button>
+            <small>WASD para moverte · Ratón para mirar · Espacio para saltar</small>
+        </div>
+    </main>
+
+    <section id="game-hud" class="hidden">
+        <div class="character-info">
+            <strong>HÉROE</strong>
+            <div class="health-bar">
+                <div id="health-fill"></div>
+            </div>
+            <small id="health-text">100 / 100 HP</small>
+        </div>
+
+        <div class="mission">
+            <strong>PRIMERA MISIÓN</strong>
+            <p>Explora el bosque misterioso</p>
+        </div>
+    </section>
+
+    <div id="controls" class="hidden">
+        <div class="movement-controls">
+            <button id="forward">▲</button>
+            <div>
+                <button id="left">◀</button>
+                <button id="backward">▼</button>
+                <button id="right">▶</button>
+            </div>
+        </div>
+        <button id="jump-button">SALTAR</button>
+    </div>
+
+    <div id="loading" class="hidden">
+        CARGANDO AVENTURA...
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+</html>
