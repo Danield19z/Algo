@@ -6,116 +6,125 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #10111c;
-    color: white;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f3ff;
+    color: #242044;
 }
 
-.navbar {
+nav {
+    background: #ffffff;
+    padding: 20px 7%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 8%;
-    background: #191a2b;
+    box-shadow: 0 3px 15px #30206012;
 }
 
-.navbar h1 {
-    color: #9b7cff;
+nav h1 {
+    color: #7c3aed;
+    font-size: 28px;
+    font-weight: 900;
 }
 
 nav a {
-    color: white;
+    color: #5b21b6;
     text-decoration: none;
-    margin-left: 20px;
-}
-
-nav a:hover {
-    color: #9b7cff;
+    font-weight: bold;
 }
 
 .hero {
+    padding: 85px 20px;
     text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(135deg, #24164d, #121b3d);
+    background: linear-gradient(
+        120deg,
+        #8b5cf6,
+        #ec4899,
+        #f97316
+    );
+    color: white;
 }
 
 .hero h2 {
-    font-size: 42px;
-    margin-bottom: 15px;
+    font-size: clamp(35px, 6vw, 60px);
+    margin-bottom: 18px;
 }
 
 .hero p {
-    color: #c5c5d5;
-    margin-bottom: 30px;
-}
-
-.button, button {
-    background: #8057ed;
-    color: white;
-    border: none;
-    padding: 13px 22px;
-    border-radius: 9px;
-    cursor: pointer;
-    text-decoration: none;
+    font-size: 19px;
 }
 
 .games {
-    padding: 55px 8%;
-    text-align: center;
+    padding: 55px 7%;
 }
 
 .games h2 {
-    margin-bottom: 30px;
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 35px;
 }
 
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(230px, 1fr)
+    );
+    gap: 25px;
 }
 
 .game-card {
-    background: #202136;
-    padding: 30px 20px;
-    border-radius: 15px;
-    border: 1px solid #34344e;
+    background: white;
+    border-radius: 22px;
+    padding: 30px 22px;
+    text-align: center;
+    box-shadow: 0 8px 25px #39246a12;
+    transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.game-card span {
-    font-size: 45px;
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px #39246a25;
 }
 
 .game-card h3 {
-    margin: 15px 0;
+    font-size: 23px;
+    margin-bottom: 12px;
+    color: #6d28d9;
 }
 
 .game-card p {
-    color: #b5b5c8;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    color: #6b6680;
 }
 
-button:hover, .button:hover {
-    background: #a184ff;
+.play-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    color: white;
+    padding: 12px 27px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.play-button:hover {
+    transform: scale(1.08);
 }
 
 footer {
-    padding: 25px;
     text-align: center;
-    color: #999;
-    background: #191a2b;
+    padding: 25px;
+    background: #282044;
+    color: white;
 }
 
 @media (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-        gap: 18px;
+    .hero {
+        padding: 60px 15px;
     }
 
-    nav a {
-        margin: 0 7px;
-    }
-
-    .hero h2 {
-        font-size: 30px;
+    .games {
+        padding: 40px 5%;
     }
 }

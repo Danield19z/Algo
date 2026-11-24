@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Rush | GameZone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container"></div>
+
+    <div class="top-bar">
+        <a href="../../index.html" class="back-button">← GAMEZONE</a>
+        <div class="game-logo">NEON <span>RUSH</span></div>
+    </div>
+
+    <div class="hud">
+        <div class="hud-card">
+            <small>PUNTUACIÓN</small>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="hud-card">
+            <small>CRISTALES</small>
+            <strong id="crystals">0</strong>
+        </div>
+    </div>
+
+    <div id="start-screen" class="overlay">
+        <div class="panel">
+            <div class="game-icon">🚀</div>
+            <h1>NEON <span>RUSH</span></h1>
+            <p>Sobrevive. Esquiva. Consigue cristales.</p>
+            <button id="start-button">JUGAR AHORA</button>
+            <small>Usa ← → o A / D para moverte</small>
+        </div>
+    </div>
+
+    <div id="game-over" class="overlay hidden">
+        <div class="panel">
+            <div class="game-icon">💥</div>
+            <h1>GAME OVER</h1>
+            <p>Tu puntuación: <strong id="final-score">0</strong></p>
+            <p>Récord: <strong id="best-score">0</strong></p>
+            <button id="restart-button">VOLVER A JUGAR</button>
+        </div>
+    </div>
+
+    <div class="mobile-controls">
+        <button id="left-button">◀</button>
+        <button id="right-button">▶</button>
+    </div>
+
+    <script type="module" src="game.js"></script>
+
+</body>
+</html>

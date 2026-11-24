@@ -4,48 +4,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake | GameZone</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Snake Arcade | GameZone</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: white;
+            background:
+                radial-gradient(circle at top, #452080, transparent 55%),
+                linear-gradient(135deg, #17113b, #09091c);
+        }
+
         .snake-container {
             text-align: center;
             padding: 30px 15px;
         }
 
-        canvas {
-            background: #111;
-            border: 3px solid #a855f7;
-            max-width: 100%;
-            height: auto;
+        .logo {
+            color: #facc15;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 4px;
         }
 
-        .snake-container button {
+        h1 {
+            font-size: clamp(38px, 8vw, 58px);
+            margin: 10px 0;
+            color: #ffffff;
+            text-shadow: 0 0 20px #a855f7;
+        }
+
+        .subtitle {
+            color: #c4b5fd;
+            margin-bottom: 25px;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px auto;
+        }
+
+        .score-box {
+            background: #ffffff12;
+            border: 1px solid #a78bfa;
+            border-radius: 15px;
             padding: 12px 25px;
-            margin: 15px;
-            background: #9333ea;
+            min-width: 135px;
+        }
+
+        .score-box p {
+            margin: 0;
+            color: #c4b5fd;
+        }
+
+        .score-box span {
+            display: block;
+            color: #4ade80;
+            font-size: 26px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        canvas {
+            display: block;
+            width: min(400px, 92vw);
+            height: auto;
+            margin: 20px auto;
+            background: #09091c;
+            border: 3px solid #a78bfa;
+            border-radius: 15px;
+            box-shadow: 0 0 30px #8b5cf6;
+        }
+
+        button {
+            padding: 14px 30px;
+            margin: 12px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 30px;
+            font-size: 17px;
+            font-weight: bold;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.06);
+        }
+
+        #message {
+            color: #facc15;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .instructions {
+            color: #c4b5fd;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #facc15;
         }
     </style>
 </head>
+
 <body>
 
-    <div class="snake-container">
-        <h1>🐍 Snake</h1>
-        <p>Puntuación: <span id="score">0</span></p>
-        <p>Récord: <span id="record">0</span></p>
+    <main class="snake-container">
+
+        <div class="logo">GAMEZONE ARCADE</div>
+
+        <h1>🐍 SNAKE</h1>
+
+        <p class="subtitle">
+            ¡Come, crece y consigue el récord!
+        </p>
+
+        <div class="scoreboard">
+            <div class="score-box">
+                <p>⭐ PUNTOS</p>
+                <span id="score">0</span>
+            </div>
+
+            <div class="score-box">
+                <p>🏆 RÉCORD</p>
+                <span id="record">0</span>
+            </div>
+        </div>
 
         <canvas id="game" width="400" height="400"></canvas>
 
-        <br>
-        <button onclick="startGame()">Jugar / Reiniciar</button>
-        <p id="message">Pulsa Jugar para comenzar</p>
-        <p>Usa las flechas del teclado para moverte.</p>
-        <a href="../index.html">Volver a GameZone</a>
-    </div>
+        <button onclick="startGame()">
+            ▶ JUGAR / REINICIAR
+        </button>
+
+        <p id="message">
+            Pulsa JUGAR para comenzar
+        </p>
+
+        <p class="instructions">
+            🎮 Usa las flechas del teclado para moverte.
+        </p>
+
+        <a class="back-link" href="../index.html">
+            ← Volver a GameZone
+        </a>
+
+    </main>
 
     <script src="snake.js"></script>
+
 </body>
 </html>
