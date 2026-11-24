@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake | GameZone</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .snake-container {
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        canvas {
+            background: #111;
+            border: 3px solid #a855f7;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .snake-container button {
+            padding: 12px 25px;
+            margin: 15px;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="snake-container">
+        <h1>🐍 Snake</h1>
+        <p>Puntuación: <span id="score">0</span></p>
+        <p>Récord: <span id="record">0</span></p>
+
+        <canvas id="game" width="400" height="400"></canvas>
+
+        <br>
+        <button onclick="startGame()">Jugar / Reiniciar</button>
+        <p id="message">Pulsa Jugar para comenzar</p>
+        <p>Usa las flechas del teclado para moverte.</p>
+        <a href="../index.html">Volver a GameZone</a>
+    </div>
+
+    <script src="snake.js"></script>
+</body>
+</html>
